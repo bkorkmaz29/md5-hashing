@@ -23,7 +23,7 @@ class MD5(object):
         self._string = input_string
         bit_array = self._string_to_ba()
         extended_ba = self._extend_ba(bit_array)
-        processed_ba = self._process(extended_ba)
+        #processed_ba = self._process(extended_ba)
 
         return self._buffers_to_hex()
 
