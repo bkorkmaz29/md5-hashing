@@ -6,17 +6,17 @@ def main():
     argParser = ArgumentParser()
 
     argParser.add_argument(
-        "s",
+        "input_string",
         metavar='string input',
         type=str,
     )
 
     md5 = MD5()
     arguments = argParser.parse_args()
-    md5Hash = md5._generate_hash(arguments.s)
+    md5_hash = md5.generate_hash(arguments.input_string)
 
-    print("Hash created by algorithm: ", md5Hash)
-    print("Hash created by hashlib lib: ", hashlib.md5(arguments.s.encode("utf_8")).hexdigest())
+    print("Hash created by algorithm: ", md5_hash)
+    print("Hash created by hashlib lib: ", hashlib.md5(arguments.input_string.encode("utf_8")).hexdigest())
 
 if __name__ == "__main__":
     main()
