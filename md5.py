@@ -38,6 +38,7 @@ class MD5(object):
         while len(bit_array) % 512 != 448:
             bit_array.append(0)
 
+        # Converting to little endian for the rest of the algorithm
         padded_ba = bitarray(endian="little")
         padded_ba.frombytes(bit_array.tobytes())
         return padded_ba, original_length

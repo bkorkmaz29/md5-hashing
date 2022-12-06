@@ -23,7 +23,7 @@ pip install unittest
 ## How To Use
 - Run the main script using python with input string as an argument
 ```sh
-python3 main.py "Hash this text"
+python main.py "Hash this text"
 ```
 
 ## Testing
