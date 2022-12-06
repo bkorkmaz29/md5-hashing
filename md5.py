@@ -9,6 +9,7 @@ class MD5(object):
         self._buffers = None
     
     def generate_hash(self, input_string):
+        # Main function for generating MD5 hash
         self._string = input_string
         self._buffers = {
             'A': 0x67452301,
@@ -17,24 +18,18 @@ class MD5(object):
             'D': 0x10325476,
         }
         
-        bit_array = self._string_to_ba()
+        # Converting input string to bit array
         bit_array = bitarray(endian="big")
         bit_array.frombytes(self._string.encode("utf-8"))
-        
+
         padded_ba, og_length = self._pad_ba(bit_array)
         extended_ba = self._extend_ba(padded_ba, og_length)
         self._process(extended_ba)
 
         return self._buffers_to_hex()
-
-    def _string_to_ba(self):
-        # Converting the input string into a bit array
-        ba = bitarray(endian="big")
-        ba.frombytes(self._string.encode("utf-8"))
-        return ba
-
    
     def _pad_ba(self, bit_array):
+        # Saving original length of bit array for extending
         original_length = len(bit_array)
         # Extending the bit array with single 1 bit
         bit_array.append(1)
@@ -43,13 +38,11 @@ class MD5(object):
         while len(bit_array) % 512 != 448:
             bit_array.append(0)
 
-
         padded_ba = bitarray(endian="little")
         padded_ba.frombytes(bit_array.tobytes())
         return padded_ba, original_length
 
     def _extend_ba(self, bit_array, original_length):
-        
         # Extending the padded bit array with a 64-bit little endian
         # representation of the original message length.
         length = original_length % pow(2, 64)
@@ -84,8 +77,8 @@ class MD5(object):
         for chunk_index in range(N):
             # Breaking the chunk into 16 words of 32 bits in list M.
             start = chunk_index * 512
-            M = [bit_array[start +
-                                (x * 32): start + (x * 32) + 32] for x in range(16)]
+            M = [bit_array[start 
+                                + (x * 32): start + (x * 32) + 32] for x in range(16)]
 
             # Converting the bitarrays to integers.
             M = [int.from_bytes(word.tobytes(), byteorder="little")

@@ -6,6 +6,7 @@ A tool for creating an MD5 hash from a string input.
 - Python 3.9
 - bitarray
 - hashlib
+- unittest
 
 ## Installation
 - Download or clone the files
@@ -15,11 +16,18 @@ A tool for creating an MD5 hash from a string input.
 pip install bitarray
 ```
 
-```sh
 pip install hashlib
+
+pip install unittest
 ```
+
 ## How To Use
 - Run the main script using python with input string as an argument
 ```sh
 python3 main.py "Hash this text"
+```
+
+## Testing
+```sh
+python -m unittest"
 ```
