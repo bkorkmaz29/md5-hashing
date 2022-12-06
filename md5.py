@@ -16,7 +16,11 @@ class MD5(object):
             'C': 0x98BADCFE,
             'D': 0x10325476,
         }
+        
         bit_array = self._string_to_ba()
+        bit_array = bitarray(endian="big")
+        bit_array.frombytes(self._string.encode("utf-8"))
+        
         padded_ba, og_length = self._pad_ba(bit_array)
         extended_ba = self._extend_ba(padded_ba, og_length)
         self._process(extended_ba)
@@ -58,20 +62,24 @@ class MD5(object):
         return result
 
     def _process(self, bit_array):
+        # Auxiliary functions
         F = lambda b, c, d: (b & c) | (~b & d)
         G = lambda b, c, d: (b & d) | (c & ~d)
         H = lambda b, c, d: b ^ c ^ d
         I = lambda b, c, d: c ^ (b | ~d)
         
+        # Modular addition
         mod_add = lambda a, b: (a + b) % pow(2, 32)
-        left_rotate = lambda x, n: (x << n) | (x >> (32 - n))
         
+        # Left rotating x by n bits
+        left_rotate = lambda x, n: (x << n) | (x >> (32 - n))
         
         # K table
         K = [floor(pow(2, 32) * abs(sin(i + 1))) for i in range(64)]
 
         # Number of 512 bit chunks 
         N = len(bit_array) // 512
+
         # Process chunks of 512 bits.
         for chunk_index in range(N):
             # Breaking the chunk into 16 words of 32 bits in list M.
@@ -124,6 +132,6 @@ class MD5(object):
             self._buffers['D'] = mod_add(self._buffers['D'], D)
             
     def _buffers_to_hex(self):
-        # Converting buffers to LE and then TO 32-bit HEX
+        # Converting buffers to little endian then to 32-bit HEX
         return b''.join(x.to_bytes(length=4, byteorder='little') for x in self._buffers.values()).hex()
 
