@@ -2,6 +2,7 @@ import hashlib
 from argparse import ArgumentParser
 from md5 import MD5
 
+
 def main():
     argParser = ArgumentParser()
 
