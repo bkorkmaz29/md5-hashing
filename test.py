@@ -14,6 +14,7 @@ class tests(unittest.TestCase):
             "Not the answer you're looking for?",
             "A lambda function is a small anonymous function.",
             "1.?*/**/2dsdso",
+            "  s  3 -*/casge =)(/&%+"
         ]
 
         md5 = MD5()

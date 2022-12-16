@@ -24,9 +24,8 @@ class MD5(object):
 
         padded_ba, og_length = self._pad_ba(bit_array)
         extended_ba = self._extend_ba(padded_ba, og_length)
-        self._process(extended_ba)
-
-        return self._buffers_to_hex()
+        
+        return self._process(extended_ba)
    
     def _pad_ba(self, bit_array):
         # Saving original length of bit array for extending
@@ -94,23 +93,23 @@ class MD5(object):
             for i in range(64):
                 if 0 <= i <= 15:
                     s = [7, 12, 17, 22]
-                    g = i
+                    j = i
                     temp = F(B, C, D)
                 elif 16 <= i <= 31:
                     s = [5, 9, 14, 20]
-                    g = ((5 * i) + 1) % 16
+                    j = ((5 * i) + 1) % 16
                     temp = G(B, C, D)
                 elif 32 <= i <= 47:
                     s = [4, 11, 16, 23]
-                    g = ((3 * i) + 5) % 16
+                    j = ((3 * i) + 5) % 16
                     temp = H(B, C, D)
                 elif 48 <= i <= 63:
                     s = [6, 10, 15, 21]
-                    g = (7 * i) % 16
+                    j = (7 * i) % 16
                     temp = I(B, C, D)
 
                 # Modular addition
-                temp = mod_add(temp, M[g])
+                temp = mod_add(temp, M[j])
                 temp = mod_add(temp, K[i])
                 temp = mod_add(temp, A)
                 temp = left_rotate(temp, s[i % 4])
@@ -125,6 +124,6 @@ class MD5(object):
             self._buffers['C'] = mod_add(self._buffers['C'], C)
             self._buffers['D'] = mod_add(self._buffers['D'], D)
             
-    def _buffers_to_hex(self):
-        # Converting buffers to little endian then to 32-bit HEX
+        # Converting buffers to little endian then to 32-bit HEX    
         return b''.join(x.to_bytes(length=4, byteorder='little') for x in self._buffers.values()).hex()
+        
